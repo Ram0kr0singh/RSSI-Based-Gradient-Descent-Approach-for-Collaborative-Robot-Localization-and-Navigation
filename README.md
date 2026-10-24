@@ -18,6 +18,7 @@ The robot scans for a base-station access point, reads its signal strength (RSSI
 - [Hardware](#hardware)
 - [Pin Mapping](#pin-mapping)
 - [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
 - [Results](#results)
 - [Research Paper (Simulation)](#research-paper-simulation)
 - [Limitations](#limitations)
@@ -54,11 +55,11 @@ The system runs two separate firmwares on two ESP8266 NodeMCU boards.
 
 ```mermaid
 flowchart LR
-    subgraph BASE[Base Station · base_final.ino]
+    subgraph BASE[Base Station · base_station.ino]
         AP[ESP8266 in WIFI_AP mode\nSSID: Robot_Base_Station\n192.168.4.1]
     end
 
-    subgraph ROBOT[Mobile Robot · Final_robot_auto_test_1.ino]
+    subgraph ROBOT[Mobile Robot · robot_navigation.ino]
         SCAN[WiFi.scanNetworks\nRSSI of base station]
         US[HC-SR04\nObstacle distance]
         IMU[MPU-6050\nHeading reference]
@@ -73,8 +74,8 @@ flowchart LR
     CTRL --> DRV
 ```
 
-- **Base station** — stays in one place and broadcasts a Wi-Fi access point. The loop is empty; the Wi-Fi stack's beacon frames are the signal the robot measures.
-- **Robot** — runs in station mode (scan only, never connects), measures the base station's RSSI each cycle, and decides how to move.
+- **Base station** (`firmware/base_station/base_station.ino`) — stays in one place and broadcasts a Wi-Fi access point. The loop is empty; the Wi-Fi stack's beacon frames are the signal the robot measures.
+- **Robot** (`firmware/robot_navigation/robot_navigation.ino`) — runs in station mode (scan only, never connects), measures the base station's RSSI each cycle, and decides how to move.
 
 ---
 
@@ -178,14 +179,30 @@ git clone https://github.com/Ram0kr0singh/RSSI-Based-Gradient-Descent-Approach-f
 cd RSSI-Based-Gradient-Descent-Approach-for-Collaborative-Robot-Localization-and-Navigation
 ```
 
-1. **Flash the base station.** Upload `base_final.ino` to the first NodeMCU. It starts an access point with SSID `Robot_Base_Station` (password `12345678`) at `192.168.4.1`. Place it at a fixed location.
-2. **Flash the robot.** Upload `Final_robot_auto_test_1.ino` to the second NodeMCU on the robot chassis. The `targetSSID` in the robot code must match the base-station SSID.
+1. **Flash the base station.** Open `firmware/base_station/base_station.ino` in Arduino IDE and upload it to the first NodeMCU. It starts an access point with SSID `Robot_Base_Station` (password `12345678`) at `192.168.4.1`. Place it at a fixed location.
+2. **Flash the robot.** Open `firmware/robot_navigation/robot_navigation.ino` and upload it to the second NodeMCU on the robot chassis. The `targetSSID` in the robot code must match the base-station SSID.
 3. **Wire the robot** using the [pin mapping](#pin-mapping) above.
 4. **Calibrate.** Keep the robot still and level for the first 2 seconds after power-on while the MPU-6050 base angle is captured.
 5. **Run.** Place the robot 2–5 m from the base station. Open the Serial Monitor at **115200 baud** to watch the live distance and RSSI output. The robot prints `TARGET REACHED - Converged!` when RSSI exceeds -55 dBm.
 6. **Tune.** Adjust `closeRSSI`, `midRSSI`, the speed values, the turn duration, and the heading correction divisor for your environment and chassis.
 
 > Change the default Wi-Fi password before any deployment beyond a lab demo.
+
+### Project structure
+
+```
+.
+├── README.md
+├── docs/
+│   └── images/                       # hardware photos used in this README
+└── firmware/
+    ├── base_station/
+    │   └── base_station.ino          # Wi-Fi access point (signal source)
+    └── robot_navigation/
+        └── robot_navigation.ino      # RSSI navigation, obstacle avoidance, IMU correction
+```
+
+> The project report refers to these sketches as `base_final.ino` and `Final_robot_auto_test_1.ino`. They were renamed here for clarity (Arduino IDE requires each sketch to sit in a folder with the same name); the code is unchanged.
 
 ---
 
@@ -290,16 +307,14 @@ The firmware in this repository is the **hardware prototype**: a single robot na
 
 K.R. Mangalam University, School of Engineering & Technology, Department of Computer Science and Engineering.
 
+**Supervisor:** Dr. Shweta Agarwal, Assistant Professor
 | Contributor | Roll No. |
 |---|---|
 | [Ram Kumar Singh](https://github.com/Ram0kr0singh) | 2501940002 | Team Leader
-| Shubham Goel | 2501940014 |
+| [Shubham Goel](https://github.com/shubh29-creator) | 2501940014 |
 | [Jagdish Nayak](https://github.com/JagdishNayak-ai) | 2501940019 |
 | [Tushar Singh](https://github.com/singhtushar738-prog) | 2501940055 |
 | [Vishakha Gaur](https://github.com/vishakhacodes) | 2501940065 |
-
-**Supervisor:** Dr. Shweta Agarwal, Assistant Professor
-
 ---
 
 ## References
