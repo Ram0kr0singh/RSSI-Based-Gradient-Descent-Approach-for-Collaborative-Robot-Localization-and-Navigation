@@ -5,6 +5,7 @@
 The robot scans for a base-station access point, reads its signal strength (RSSI), and drives toward the stronger signal, slowing down as it gets closer. No GPS, no beacons, no cameras, no central controller.
 
 > MCA (AI & ML) Semester II project · K.R. Mangalam University, Gurugram · Projexa Team ID 26E1214
+>
 > Research paper accepted at **SASIGD 2026**.
 
 ---
@@ -308,13 +309,15 @@ The firmware in this repository is the **hardware prototype**: a single robot na
 K.R. Mangalam University, School of Engineering & Technology, Department of Computer Science and Engineering.
 
 **Supervisor:** Dr. Shweta Agarwal, Assistant Professor
+
 | Contributor | Roll No. |
 |---|---|
-| [Ram Kumar Singh](https://github.com/Ram0kr0singh) | 2501940002 | Team Leader
+| [Ram Kumar Singh](https://github.com/Ram0kr0singh) | 2501940002 |
 | [Shubham Goel](https://github.com/shubh29-creator) | 2501940014 |
 | [Jagdish Nayak](https://github.com/JagdishNayak-ai) | 2501940019 |
 | [Tushar Singh](https://github.com/singhtushar738-prog) | 2501940055 |
 | [Vishakha Gaur](https://github.com/vishakhacodes) | 2501940065 |
+
 ---
 
 ## References
